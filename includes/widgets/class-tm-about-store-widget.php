@@ -55,23 +55,24 @@ if ( class_exists( 'WP_Widget_Text' ) ) {
 		 * @param array $instance
 		 */
 		public function widget( $args, $instance ) {
-
-			$enable_button = isset( $instance['enable_button'] ) ? $instance['enable_button'] : 0;
-			$button_url    = isset( $instance['button_url'] )    ? $instance['button_url']    : '';
-			$button_text   = isset( $instance['button_text'] )   ? apply_filters('wpml_translate_single_string', $instance['button_text'], 'Widgets', 'TM About Store - button text' )          : '';
-			$id            = ! empty( $instance['id'] )          ? $instance['id']            : '';
 			$img           = '';
+			$enable_button = isset( $instance['enable_button'] ) ? $instance['enable_button'] : 0;
+			$id            = ! empty( $instance['id'] )          ? $instance['id']            : '';
+
+			$button_text   = isset( $instance['button_text'] ) ? apply_filters( 'wpml_translate_single_string', $instance['button_text'], 'Widgets', 'TM About Store - button text' ) : '';
+			$button_url   = isset( $instance['button_url'] ) ? apply_filters( 'wpml_translate_single_string', $instance['button_url'], 'Widgets', 'TM About Store - button url' ) : '';
 
 			if ( '' !== $id ) {
-
 				$img = wp_get_attachment_image_src ( $id, 'original' );
 			}
+
 			$before_widget   = array();
 			$before_widget['before_widget'] = $args['before_widget'];
-			if ( is_array( $img ) ) {
 
+			if ( is_array( $img ) ) {
 				$before_widget['img_container'] = '<div class="tm_about_store_widget_bg" style="background-image: url(' . $img[0] . ');">';
 			}
+
 			$args['before_widget'] = implode( "\n", $before_widget );
 			$after_widget = array();
 
@@ -79,10 +80,11 @@ if ( class_exists( 'WP_Widget_Text' ) ) {
 				$button_url = tm_woo_render_macros( $button_url );
 				$after_widget['button'] = '<a href="' . esc_url( $button_url ) . '" class="button btn">' . $button_text . '</a>';
 			}
-			if ( is_array( $img ) ) {
 
+			if ( is_array( $img ) ) {
 				$after_widget['img_container'] = '</div>';
 			}
+
 			$after_widget['after_widget']       = $args['after_widget'];
 			$args['after_widget'] = implode( "\n", $after_widget );
 
@@ -112,6 +114,7 @@ if ( class_exists( 'WP_Widget_Text' ) ) {
 			 * register strings for translation
 			 */
 			do_action( 'wpml_register_single_string', 'Widgets', 'TM About Store - button text', $instance['button_text'] );
+			do_action( 'wpml_register_single_string', 'Widgets', 'TM About Store - button url', $instance['button_url'] );
 			//WMPL
 
 			return $instance;

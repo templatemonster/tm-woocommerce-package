@@ -1,9 +1,11 @@
 <?php
 /*
 	Plugin Name: TM WooCommerce Package
+	Description: The plugin based on WooCommerce is packed with multiple functional widgets that give you an opportunity to build various layouts for your store.
 	Version: 1.1.13
 	Author: TemplateMonster
 	Author URI: http://www.templatemonster.com/
+	Text Domain: tm-woocommerce-package
 */
 
 /*  This program is free software; you can redistribute it and/or modify

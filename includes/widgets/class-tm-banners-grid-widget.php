@@ -294,9 +294,9 @@ if ( class_exists( 'WC_Widget' ) ) {
 					<option value="1">blank</option>
 				</select>
 				</p>
-				<p><label><strong><?php _e( 'Title:', 'tm-woocommrece-package' ); ?></strong></label>
+				<p><label><strong><?php _e( 'Title:', 'tm-woocommerce-package' ); ?></strong></label>
 				<input class="widefat tm_banners_grid_widget_banner_title" type="text"></p>
-				<p><label><strong><?php _e( 'Content:', 'tm-woocommrece-package' ); ?></strong></label>
+				<p><label><strong><?php _e( 'Content:', 'tm-woocommerce-package' ); ?></strong></label>
 				<textarea class="widefat tm_banners_grid_widget_banner_text" rows="16" cols="20"></textarea></p>
 				<input type="hidden" class="tm_banners_grid_widget_banner_id">
 			</div>
