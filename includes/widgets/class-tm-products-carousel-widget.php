@@ -342,6 +342,11 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 				$this->instance = $instance;
 				add_filter( 'post_class', array( $this, 'loop_columns' ), 20, 3 );
 
+				/**
+				 * Hook fires before widget loop
+				 */
+				do_action( 'tm_products_carousel_widget_loop_before' );
+
 				while ( $products->have_posts() ) {
 
 					$products->the_post();
@@ -350,6 +355,12 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 						'swiper' => true,
 					) );
 				}
+
+				/**
+				 * Hook fires after widget loop
+				 */
+				do_action( 'tm_products_carousel_widget_loop_after' );
+
 				$this->hooks( $this->hooks, $instance, false );
 
 				remove_filter( 'post_class', array( $this, 'loop_columns' ), 20, 3 );

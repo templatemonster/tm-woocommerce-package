@@ -42,6 +42,13 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 		private $is_enabled = null;
 
 		/**
+		 * Current loop context
+		 *
+		 * @var string
+		 */
+		private $context = null;
+
+		/**
 		 * Constructor for the class
 		 */
 		function __construct() {
@@ -51,6 +58,56 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 			add_filter( 'post_thumbnail_html', array( $this, 'advanced_thumb' ), 10, 5 );
 
 			add_filter( 'woocommerce_products_general_settings', array( $this, 'add_options' ) );
+
+			add_action( 'tm_products_carousel_widget_loop_before', array( $this, 'set_context' ) );
+			add_action( 'woocommerce_shortcode_before_featured_products_loop', array( $this, 'set_context' ) );
+			add_action( 'woocommerce_shortcode_before_recent_products_loop', array( $this, 'set_context' ) );
+			add_action( 'woocommerce_shortcode_before_products_loop', array( $this, 'set_context' ) );
+			add_action( 'woocommerce_shortcode_before_sale_products_loop', array( $this, 'set_context' ) );
+
+			add_action( 'tm_products_carousel_widget_loop_after', array( $this, 'clear_context' ) );
+			add_action( 'woocommerce_shortcode_after_featured_products_loop', array( $this, 'clear_context' ) );
+			add_action( 'woocommerce_shortcode_after_recent_products_loop', array( $this, 'clear_context' ) );
+			add_action( 'woocommerce_shortcode_after_products_loop', array( $this, 'clear_context' ) );
+			add_action( 'woocommerce_shortcode_after_sale_products_loop', array( $this, 'clear_context' ) );
+		}
+
+		/**
+		 * Set current context
+		 */
+		public function set_context() {
+
+			$filter = current_filter();
+
+			switch ( $filter ) {
+				case 'tm_products_carousel_widget_loop_before':
+					$this->context = 'carousel';
+					break;
+
+				case 'woocommerce_shortcode_before_featured_products_loop':
+					$this->context = 'featured';
+					break;
+
+				case 'woocommerce_shortcode_before_recent_products_loop':
+					$this->context = 'recent';
+					break;
+
+				case 'woocommerce_shortcode_before_products_loop':
+					$this->context = 'products';
+					break;
+
+				case 'woocommerce_shortcode_before_sale_products_loop':
+					$this->context = 'sale';
+					break;
+			}
+
+		}
+
+		/**
+		 * Unset current context
+		 */
+		public function clear_context() {
+			$this->context = null;
 		}
 
 		/**
@@ -113,8 +170,19 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 		 */
 		public function is_thumb_required( $post_id ) {
 
-			if ( ! $this->is_loop || ! $this->is_enabled() ) {
+			if ( ! $this->is_enabled() ) {
 				return false;
+			}
+
+			if ( ! $this->is_loop ) {
+				return false;
+			}
+
+			if ( null !== $this->context ) {
+				$context = get_option( 'tm_woo_thumb_' . $this->context, 'yes' );
+				if ( 'yes' !== $context ) {
+					return false;
+				}
 			}
 
 			if ( 'product' !== get_post_type( $post_id ) ) {
@@ -181,6 +249,46 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 						'fade'   => __( 'Fade', 'tm-woocommerce-package' ),
 					),
 					'desc_tip' =>  true,
+				),
+				array(
+					'title'    => __( 'Add to [featured_products]', 'tm-woocommerce-package' ),
+					'desc'     => __( 'Add thumbnails switch to featured_products shortcode', 'tm-woocommerce-package' ),
+					'id'       => 'tm_woo_thumb_featured',
+					'default'  => 'yes',
+					'type'     => 'checkbox',
+					'autoload' => yes,
+				),
+				array(
+					'title'    => __( 'Add to [recent_products]', 'tm-woocommerce-package' ),
+					'desc'     => __( 'Add thumbnails switch to recent_products shortcode', 'tm-woocommerce-package' ),
+					'id'       => 'tm_woo_thumb_recent',
+					'default'  => 'yes',
+					'type'     => 'checkbox',
+					'autoload' => yes,
+				),
+				array(
+					'title'    => __( 'Add to [sale_products]', 'tm-woocommerce-package' ),
+					'desc'     => __( 'Add thumbnails switch to sale_products shortcode', 'tm-woocommerce-package' ),
+					'id'       => 'tm_woo_thumb_sale',
+					'default'  => 'yes',
+					'type'     => 'checkbox',
+					'autoload' => yes,
+				),
+				array(
+					'title'    => __( 'Add to [products]', 'tm-woocommerce-package' ),
+					'desc'     => __( 'Add thumbnails switch to products shortcode', 'tm-woocommerce-package' ),
+					'id'       => 'tm_woo_thumb_sale',
+					'default'  => 'yes',
+					'type'     => 'checkbox',
+					'autoload' => yes,
+				),
+				array(
+					'title'    => __( 'Add to Products carousel', 'tm-woocommerce-package' ),
+					'desc'     => __( 'Add thumbnails switch to Products carousel widget', 'tm-woocommerce-package' ),
+					'id'       => 'tm_woo_thumb_carousel',
+					'default'  => 'yes',
+					'type'     => 'checkbox',
+					'autoload' => yes,
 				),
 
 				array(
