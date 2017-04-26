@@ -10,7 +10,26 @@
 			swiperLoop         = $( this ).data( 'swiper-loop' ),
 			freeMode           = $( this ).data( 'free-mode' ),
 			grabCursor         = $( this ).data( 'grab-cursor' ),
-			mouseWheel         = $( this ).data( 'mouse-wheel' );
+			mouseWheel         = $( this ).data( 'mouse-wheel' ),
+			breakpointsList    = {
+				992: {
+					slidesPerView: Math.ceil( slidesPerView * 0.75 ),
+					spaceBetween:  Math.ceil( spaceBetweenSlides * 0.75 )
+				},
+				768: {
+					slidesPerView: Math.ceil( slidesPerView * 0.5 ),
+					spaceBetween:  Math.ceil( spaceBetweenSlides * 0.5 )
+				},
+				480: {
+					slidesPerView: Math.ceil( slidesPerView * 0.25 ),
+					spaceBetween:  Math.ceil( spaceBetweenSlides * 0.25 )
+				}
+			},
+			customBreakpoints  = $( this ).data( 'custom-breakpoints' );
+
+		if ( '' !== customBreakpoints && 'object' === typeof customBreakpoints ) {
+			breakpointsList = customBreakpoints;
+		}
 
 		swiper = new Swiper( '#' + uniqId, {
 				slidesPerView:       slidesPerView,
@@ -35,20 +54,7 @@
 						'display': 'block'
 					} );
 				},
-				breakpoints:         {
-					992: {
-						slidesPerView: Math.ceil( slidesPerView * 0.75 ),
-						spaceBetween:  Math.ceil( spaceBetweenSlides * 0.75 )
-					},
-					768: {
-						slidesPerView: Math.ceil( slidesPerView * 0.5 ),
-						spaceBetween:  Math.ceil( spaceBetweenSlides * 0.5 )
-					},
-					480: {
-						slidesPerView: Math.ceil( slidesPerView * 0.25 ),
-						spaceBetween:  Math.ceil( spaceBetweenSlides * 0.25 )
-					}
-				}
+				breakpoints: breakpointsList
 			}
 		);
 	} );

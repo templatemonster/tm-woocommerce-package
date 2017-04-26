@@ -231,14 +231,14 @@ if ( class_exists( 'WC_Widget' ) ) {
 
 					foreach ( $banners_links as $link ) {
 
-						$links[] = base64_encode( $link );
+						$links[] = $link;
 					}
 					$banners_links = implode( ',', $links );
 				}
 			}
 			$banners_grid_val = !empty( $instance['banners_grid'] )  ? $instance['banners_grid']  : '';
 			$links_targets    = !empty( $instance['links_targets'] ) ? $instance['links_targets'] : '';
-			$titles           = !empty( $instance['titles'] )        ? $instance['titles']        : '';
+			$titles           = !empty( $instance['titles'] )        ? $instance['titles']: '';
 			$texts            = !empty( $instance['texts'] )         ? $instance['texts']         : '';
 			$language         = !empty( $instance['icl_language'] )  ? $instance['icl_language']         : 'multilingual';
 			$banners_ids      = array();
@@ -331,33 +331,19 @@ if ( class_exists( 'WC_Widget' ) ) {
 		 * @return array $instance
 		 */
 		public function update( $new_instance, $old_instance ) {
+			if ( isset( $new_instance['banners_links'] ) ) {
 
-			$titles   = ! empty( $new_instance['titles'] ) ? explode( ',',$new_instance['titles'] ) : false;
-			$instance = $new_instance;
-
-			if ( isset( $titles ) && is_array( $titles ) ) {
-
-				foreach ( $titles as $key => $title ) {
-
-					$titles[$key] = base64_encode( sanitize_text_field( base64_decode( $title ) ) );
-				}
-				$instance['titles'] = implode( ',', $titles );
-			}
-
-			if ( isset( $instance['banners_links'] ) ) {
-
-				$banners_links = explode(",", $instance ['banners_links'] );
-				$links         = array();
+				$banners_links = explode( ',', $new_instance['banners_links']  );
 
 				foreach ( $banners_links as $link ) {
 
-					$links[] =  sanitize_text_field( base64_decode( $link ) );
+					$banners_links[ $link ] = esc_url( $link );
 				}
-				$instance['banners_links'] = json_encode( $links );
-			}
-			$this->flush_widget_cache();
 
-			return $instance;
+				$new_instance['banners_links'] = json_encode( $banners_links );
+			}
+
+			return $new_instance;
 		}
 
 		/**
@@ -390,11 +376,11 @@ if ( class_exists( 'WC_Widget' ) ) {
 				}
 				if ( ! empty( $titles ) && isset( $titles[$i] ) && '' !== $titles[$i] ) {
 
-					$title = apply_filters( 'tm_banners_grid_widget_banner_title', sprintf( '<h4 class="tm_banners_grid_widget_banner_title">%s</h4>', base64_decode( $titles[$i] ) ), base64_decode( $titles[$i] ) );
+					$title = apply_filters( 'tm_banners_grid_widget_banner_title', sprintf( '<h4 class="tm_banners_grid_widget_banner_title">%s</h4>', $titles[$i] ), $titles[$i] );
 				}
 				if ( ! empty( $texts ) && isset( $texts[$i] ) && '' !== $texts[$i] ) {
 
-					$text = base64_decode( $texts[$i] );
+					$text = $texts[$i];
 					if ( isset( $link ) ) {
 						$text = preg_replace( "/<\\/?a(\\s+.*?>|>)/", "", $text );
 					}

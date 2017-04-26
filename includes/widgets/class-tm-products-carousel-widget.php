@@ -316,21 +316,26 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 				$visible    = isset( $instance['tm_products_carousel_widget_visible'] )      ? $instance['tm_products_carousel_widget_visible']    : 4;
 
 				if( count( $products->posts ) < $visible ) {
-
 					$visible = count( $products->posts );
 				}
-				$visible      = apply_filters( 'tm_products_carousel_widget_visible', $visible, $args );
-				$data_attrs[] = 'data-uniq-id="swiper-carousel-' . $uniqid . '"';
-				$data_attrs[] = 'data-slides-per-view="' . $visible . '"';
-				$data_attrs[] = 'data-slides-per-group="1"';
-				$data_attrs[] = 'data-slides-per-column="1"';
-				$data_attrs[] = 'data-space-between-slides="' . $between . '"';
-				$data_attrs[] = 'data-duration-speed="500"';
-				$data_attrs[] = 'data-swiper-loop="false"';
-				$data_attrs[] = 'data-free-mode="false"';
-				$data_attrs[] = 'data-grab-cursor="true"';
-				$data_attrs[] = 'data-mouse-wheel="false"';
-				$start_html[] = '<div class="woocommerce swiper-container tm-products-carousel-widget-container" id="swiper-carousel-' . $uniqid . '" ' . implode ( " ", $data_attrs ) . '>';
+
+				$visible = apply_filters( 'tm_products_carousel_widget_visible', $visible, $args );
+
+				$data_attrs = $this->get_data_atts( array(
+					'uniq-id'              => 'swiper-carousel-' . $uniqid,
+					'slides-per-view'      => $visible,
+					'slides-per-group'     => 1,
+					'slides-per-column'    => 1,
+					'space-between-slides' => $between,
+					'duration-speed'       => 500,
+					'swiper-loop'          => 'false',
+					'free-mode'            => 'false',
+					'grab-cursor'          => 'true',
+					'mouse-wheel'          => 'false',
+					'custom-breakpoints'   => false,
+				), $args, $instance );
+
+				$start_html[] = '<div class="woocommerce swiper-container tm-products-carousel-widget-container" id="swiper-carousel-' . $uniqid . '" ' . $data_attrs . '>';
 				$start_html[] = apply_filters( 'tm_products_carousel_widget_wrapper_open', '<ul class="swiper-wrapper tm-products-carousel-widget-wrapper products">', $this );
 
 				echo implode ( "\n", $start_html );
@@ -420,6 +425,34 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 			wp_reset_postdata();
 
 			echo $this->cache_widget( $args, ob_get_clean() );
+		}
+
+		/**
+		 * Prepare data-attributes string from atts array.
+		 *
+		 * @param  array $atts     Attributes list.
+		 * @param  array $args     Widget area arguments array.
+		 * @param  array $instance Widget instance.
+		 * @return string
+		 */
+		public function get_data_atts( $atts, $args, $instance ) {
+
+			$atts = apply_filters( 'tm_woocommerce_carousel_data_atts', $atts, $args, $instance );
+
+			if ( empty( $atts ) ) {
+				return '';
+			}
+
+			$result    = '';
+			$separator = '';
+
+			foreach ( $atts as $key => $value ) {
+				$value     = ! is_string( $value ) ? json_encode( $value ) : esc_attr( $value );
+				$result   .= sprintf( '%1$sdata-%2$s=\'%3$s\'', $separator, $key, $value );
+				$separator = ' ';
+			}
+
+			return $result;
 		}
 
 		public function loop_columns( $classes, $class = '', $post_id = '' ) {

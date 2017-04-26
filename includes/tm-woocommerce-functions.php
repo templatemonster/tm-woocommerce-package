@@ -47,7 +47,12 @@ if ( ! function_exists( 'tm_products_carousel_widget_cat' ) ) {
 
 		global $product;
 
-		echo $product->get_categories( '</li> <li>', '<ul class="product-widget-categories"><li>', '</li></ul>' );
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '3.0', '>=' ) ) {
+			echo wc_get_product_category_list( $product->get_id(), '</li> <li>', '<ul class="product-widget-categories"><li>', '</li></ul>' );
+		} else {
+			echo $product->get_categories( '</li> <li>', '<ul class="product-widget-categories"><li>', '</li></ul>' );
+		}
+
 	}
 }
 
@@ -57,7 +62,12 @@ if ( ! function_exists( 'tm_products_carousel_widget_tag' ) ) {
 
 		global $product;
 
-		echo $product->get_tags( '</li> <li>', '<ul class="product-widget-tags"><li>', '</li></ul>' );
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '3.0', '>=' ) ) {
+			echo wc_get_product_tag_list( $product->get_id(), '</li> <li>', '<ul class="product-widget-tags"><li>', '</li></ul>' );
+		} else {
+			echo $product->get_tags( '</li> <li>', '<ul class="product-widget-tags"><li>', '</li></ul>' );
+		}
+
 	}
 
 }

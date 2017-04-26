@@ -131,16 +131,18 @@
 						titles  = titlesInput.val()  ? titlesInput.val().split( ',' )  : [],
 						texts   = textsInput.val()   ? textsInput.val().split( ',' )   : [];
 
-					links[index]   = window.btoa( linkInput.val() );
+					links[index]   = linkInput.val();
 					targets[index] = targetInput.val();
-					titles[index]  = window.btoa( titleInput.val() );
-					texts[index]   = window.btoa( textInput.val() );
+					titles[index]  = titleInput.val();
+					texts[index]   = textInput.val();
+
 					linksInput.val( links.join() );
 					targetsInput.val( targets.join() );
 					titlesInput.val( titles.join() );
 					textsInput.val( texts.join() );
-					wrapper.dialog( 'close' );
 					linksInput.trigger( 'change' );
+
+					wrapper.dialog( 'close' );
 				}
 			}
 
@@ -191,6 +193,7 @@
 					if ( banners.length < bannerGridWidgetAdmin.maxBanners ) {
 						addMedia.show();
 					}
+
 					bannersInput.trigger( 'change' );
 				});
 
@@ -205,16 +208,15 @@
 
 					$( '.tm_banners_grid_widget_banner_id' ).val( index );
 					wrapper.dialog( 'open' );
-					linkInput.val( links[index] ? window.atob( links[index] ) : '' );
+					linkInput.val( links[index] ? links[index] : '' );
 					targetInput
 						.find( 'option' )
 						.filter( function() {
 							return undefined !== targets[index] && $(this).val() == targets[index];
 						} )
 						.prop( 'selected', true );
-					titleInput.val( titles[index] ? window.atob( titles[index] ) : '' );
-					textInput.val( texts[index] ? window.atob( texts[index] ) : '' );
-
+					titleInput.val( titles[index] ?  titles[index] : '' );
+					textInput.val( texts[index] ? texts[index] : '' );
 				});
 			}
 

@@ -2,7 +2,7 @@
 /*
 	Plugin Name: TM WooCommerce Package
 	Description: The plugin based on WooCommerce is packed with multiple functional widgets that give you an opportunity to build various layouts for your store.
-	Version: 1.2.0
+	Version: 1.2.5
 	Author: TemplateMonster
 	Author URI: http://www.templatemonster.com/
 	Text Domain: tm-woocommerce-package
@@ -96,7 +96,9 @@ class TM_WooCommerce {
 
 			return false;
 		}
-		define( 'TM_WOOCOMMERCE_VERISON', '1.1.13' );
+
+		define( 'TM_WOOCOMMERCE_VERISON', '1.2.5' );
+
 		// Load admin assets.
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 9 );
 

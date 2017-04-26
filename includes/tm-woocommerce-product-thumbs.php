@@ -146,7 +146,11 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 				return $html;
 			}
 
-			$attachment_ids = $product->get_gallery_attachment_ids();
+			if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '3.0', '>=' ) ) {
+				$attachment_ids = $product->get_gallery_image_ids();
+			} else {
+				$attachment_ids = $product->get_gallery_attachment_ids();
+			}
 
 			if ( empty( $attachment_ids[1] ) ) {
 				return $html;
@@ -155,6 +159,10 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 			$effect         = get_option( 'tm_woo_thumb_effect', 'slide' );
 			$additional_id  = $attachment_ids[1];
 			$additional_img = wp_get_attachment_image( $additional_id, $size, false, $attr );
+
+			if ( empty( $effect ) ) {
+				$effect = 'slide';
+			}
 
 			return sprintf(
 				'<div class="tm-thumbs-wrap effect-%3$s"><div class="tm-thumbs-wrap__inner">%1$s%2$s</div></div>',
@@ -234,7 +242,6 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 					'id'       => 'tm_woo_thumb_enabled',
 					'default'  => 'no',
 					'type'     => 'checkbox',
-					'autoload' => yes,
 				),
 				array(
 					'title'    => __( 'Thumbnails switch navigation', 'tm-woocommerce-package' ),
@@ -256,7 +263,6 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 					'id'       => 'tm_woo_thumb_featured',
 					'default'  => 'yes',
 					'type'     => 'checkbox',
-					'autoload' => yes,
 				),
 				array(
 					'title'    => __( 'Add to [recent_products]', 'tm-woocommerce-package' ),
@@ -264,7 +270,6 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 					'id'       => 'tm_woo_thumb_recent',
 					'default'  => 'yes',
 					'type'     => 'checkbox',
-					'autoload' => yes,
 				),
 				array(
 					'title'    => __( 'Add to [sale_products]', 'tm-woocommerce-package' ),
@@ -272,7 +277,6 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 					'id'       => 'tm_woo_thumb_sale',
 					'default'  => 'yes',
 					'type'     => 'checkbox',
-					'autoload' => yes,
 				),
 				array(
 					'title'    => __( 'Add to [products]', 'tm-woocommerce-package' ),
@@ -280,7 +284,6 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 					'id'       => 'tm_woo_thumb_sale',
 					'default'  => 'yes',
 					'type'     => 'checkbox',
-					'autoload' => yes,
 				),
 				array(
 					'title'    => __( 'Add to Products carousel', 'tm-woocommerce-package' ),
@@ -288,7 +291,6 @@ if ( ! class_exists( 'Tm_Woo_Product_Thumbnails' ) ) {
 					'id'       => 'tm_woo_thumb_carousel',
 					'default'  => 'yes',
 					'type'     => 'checkbox',
-					'autoload' => yes,
 				),
 
 				array(

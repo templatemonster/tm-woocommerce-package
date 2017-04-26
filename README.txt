@@ -3,8 +3,8 @@
 Contributors: TemplateMonster 2002
 Tags: woocommerce, widgets, e-commerce
 Requires at least: 4.4
-Tested up to: 4.7.1
-Stable tag: 1.1.13
+Tested up to: 4.7.3
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,6 +95,22 @@ The TM Products Smart Box widget works as follows, when you select a specific nu
 3. Navigate to the "Widgets" section to start customizing
 
 == Changelog ==
+
+= 1.2.3 =
+
+* FIX: WooCommerce 3.0 compatibility.
+
+= 1.2.2 =
+
+* FIX: Minor fixes.
+
+= 1.2.1 =
+
+* FIX: Minor fixes.
+
+= 1.2.0 =
+
+* ADD: Advanced thumbnails management.
 
 = 1.1.7 =
 
