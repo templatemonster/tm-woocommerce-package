@@ -50,8 +50,8 @@ if ( class_exists( 'WC_Widget' ) ) {
 			wp_enqueue_style( 'tm-banners-grid-admin' );
 			wp_enqueue_script( 'tm-banners-grid-admin' );
 
-			$banners_grids = $this->banners_grids();
-			$col           = $this->col();
+			$banners_grids = tm_woo_available_banners_grids();
+			$col           = tm_woo_banners_grid_col();
 
 			$translation_array = array(
 				'mediaFrameTitle' => __( 'Choose banner image', 'tm-woocommerce-package' ),
@@ -61,131 +61,6 @@ if ( class_exists( 'WC_Widget' ) ) {
 			);
 
 			wp_localize_script( 'tm-banners-grid-admin', 'bannerGridWidgetAdmin', $translation_array );
-		}
-
-		/**
-		 * Get banner grids.
-		 *
-		 * @since  1.0.0
-		 * @return array
-		 */
-		protected function banners_grids() {
-
-			$banners_grids = array(
-				array(
-					array(
-						array( 'w' => 12, 'h' => 1 )
-					)
-				),
-				array(
-					array(
-						array( 'w' => 6, 'h' => 1 ),
-						array( 'w' => 6, 'h' => 1 )
-					),
-					array(
-						array( 'w' => 4, 'h' => 1 ),
-						array( 'w' => 8, 'h' => 1 )
-					),
-					array(
-						array( 'w' => 8, 'h' => 1 ),
-						array( 'w' => 4, 'h' => 1 )
-					)
-				),
-				array(
-					array(
-						array( 'w' => 4, 'h' => 1 ),
-						array( 'w' => 4, 'h' => 1 ),
-						array( 'w' => 4, 'h' => 1 )
-					),
-					array(
-						array( 'w' => 6, 'h' => 1 ),
-						array( 'w' => 3, 'h' => 1 ),
-						array( 'w' => 3, 'h' => 1 )
-					),
-					array(
-						array( 'w' => 8, 'h' => 2 ),
-						array(
-							'w' => 4,
-							'h' => array( 1, 1 )
-						)
-					)
-				),
-				array(
-					array(
-						array( 'w' => 5, 'h' => 2 ),
-						array(
-							'w' => 7,
-							'h' => array(
-								1,
-								array(
-									array( 'w' => 6, 'h' => 1 ),
-									array( 'w' => 6, 'h' => 1 )
-								)
-							)
-						)
-					),
-					array(
-						array( 'w' => 4, 'h' => 2 ),
-						array(
-							'w' => 4,
-							'h' => array( 1, 1 )
-						),
-						array( 'w' => 4, 'h' => 2 )
-					)
-				),
-				array(
-					array(
-						array(
-							'w' => 4,
-							'h' => array( 1, 1 )
-						),
-						array( 'w' => 4, 'h' => 2 ),
-						array(
-							'w' => 4,
-							'h' => array( 1, 1 )
-						)
-					)
-				),
-				array(
-					array(
-						array(
-							'w' => 4,
-							'h' => array( 1, 1 )
-						),
-						array(
-							'w' => 4,
-							'h' => array( 1, 1 )
-						),
-						array(
-							'w' => 4,
-							'h' => array( 1, 1 )
-						)
-					)
-				)
-			);
-			return apply_filters ( 'tm_banners_grid_widget_grids', $banners_grids );
-		}
-
-		/**
-		 * Get banner columns html.
-		 *
-		 * @since  1.0.0
-		 * @return string
-		 */
-		protected function col() {
-
-			$col = '<div class="tm_banners_grid_widget_img_col">'
-				 . '<div style="background-image: url(%s);">'
-				 . '<span class="banner_remove">'
-				 . '<span class="dashicons dashicons-dismiss"></span>'
-				 . '</span>'
-				 . '<span class="banner_link" title="' . __( 'Set text and link', 'tm-woocommerce-package' ) . '">'
-				 . '<span class="dashicons dashicons-admin-generic"></span>'
-				 . '</span>'
-				 . '</div>'
-				 . '</div>';
-
-			return apply_filters ( 'tm_banners_grid_widget_col', $col );
 		}
 
 		/**
@@ -247,8 +122,8 @@ if ( class_exists( 'WC_Widget' ) ) {
 
 				$banners_ids = explode( ',', esc_attr( $banners ) );
 			}
-			$col           = $this->col();
-			$banners_grids = $this->banners_grids();
+			$col           = tm_woo_banners_grid_col();
+			$banners_grids = tm_woo_available_banners_grids()
 			?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title' ); ?></label>
@@ -484,7 +359,9 @@ if ( class_exists( 'WC_Widget' ) ) {
 				return;
 			}
 
-			$banners       = ! empty( $instance['banners'] )       ? explode( ',', $instance['banners'] )           : false;
+			$regex = '/(?=\S),(?=\S)/';
+
+			$banners       = ! empty( $instance['banners'] )       ? preg_split( $regex, $instance['banners'] )           : false;
 			$banners_grid  = ! empty( $instance['banners_grid'] )  ? json_decode( $instance['banners_grid'], true ) : '';
 			$banners_links = ! empty( $instance['banners_links'] ) ? $instance['banners_links']                     : false;
 
@@ -494,9 +371,9 @@ if ( class_exists( 'WC_Widget' ) ) {
 
 				$links = json_decode( $banners_links, true );
 			}
-			$targets = ! empty( $instance['links_targets'] ) ? explode( ',', $instance['links_targets'] ) : false;
-			$titles  = ! empty( $instance['titles'] )        ? explode( ',', $instance['titles'] )        : false;
-			$texts   = ! empty( $instance['texts'] )         ? explode( ',', $instance['texts'] )         : false;
+			$targets = ! empty( $instance['links_targets'] ) ? preg_split( $regex, $instance['links_targets'] ) : false;
+			$titles  = ! empty( $instance['titles'] )        ? preg_split( $regex, $instance['titles'] )        : false;
+			$texts   = ! empty( $instance['texts'] )         ? preg_split( $regex, $instance['texts'] )         : false;
 
 			if ( is_array( $banners ) ) {
 

@@ -3,7 +3,7 @@
 (function($){
 	"use strict";
 
-	var tmBannerGridWidgetAdmin = {
+	window.tmBannerGridWidgetAdmin = {
 
 		init: function ( event, widget ) {
 
@@ -62,7 +62,7 @@
 				mediaFrame.on( 'select', function() {
 
 					var attachmentIds = [],
-						oldVal        = bannersInput.val() ? bannersInput.val().split( ',' ) : [],
+						oldVal        = bannersInput.val() ? bannersInput.val().split( /(?=\S),(?=\S)/ ) : [],
 						newVal,
 						maxBanners    = bannerGridWidgetAdmin.maxBanners - oldVal.length,
 						attachment    = mediaFrame.state().get( 'selection' ).toJSON().slice( 0, maxBanners );
@@ -126,10 +126,10 @@
 
 				if( validator.element( linkInput ) ){
 					var index   = wrapper.find( '.tm_banners_grid_widget_banner_id' ).val(),
-						links   = linksInput.val()   ? linksInput.val().split( ',' )   : [],
-						targets = targetsInput.val() ? targetsInput.val().split( ',' ) : [],
-						titles  = titlesInput.val()  ? titlesInput.val().split( ',' )  : [],
-						texts   = textsInput.val()   ? textsInput.val().split( ',' )   : [];
+						links   = linksInput.val()   ? linksInput.val().split( /(?=\S),(?=\S)/ )   : [],
+						targets = targetsInput.val() ? targetsInput.val().split( /(?=\S),(?=\S)/ ) : [],
+						titles  = titlesInput.val()  ? titlesInput.val().split( /(?=\S),(?=\S)/ )  : [],
+						texts   = textsInput.val()   ? textsInput.val().split( /(?=\S),(?=\S)/ )   : [];
 
 					links[index]   = linkInput.val();
 					targets[index] = targetInput.val();
@@ -156,11 +156,11 @@
 				removeBtns.on( 'click', function() {
 
 					var index   = $(this).closest( '.tm_banners_grid_widget_img_col' ).index(),
-						banners = bannersInput.val().split( ',' ),
-						links   = linksInput.val()   ? linksInput.val().split( ',' )   : [],
-						targets = targetsInput.val() ? targetsInput.val().split( ',' ) : [],
-						titles  = titlesInput.val()  ? titlesInput.val().split( ',' )  : [],
-						texts   = textsInput.val()   ? textsInput.val().split( ',' )   : [];
+						banners = bannersInput.val().split( /(?=\S),(?=\S)/ ),
+						links   = linksInput.val()   ? linksInput.val().split( /(?=\S),(?=\S)/ )   : [],
+						targets = targetsInput.val() ? targetsInput.val().split( /(?=\S),(?=\S)/ ) : [],
+						titles  = titlesInput.val()  ? titlesInput.val().split( /(?=\S),(?=\S)/ )  : [],
+						texts   = textsInput.val()   ? textsInput.val().split( /(?=\S),(?=\S)/ )   : [];
 
 					banners.splice( index, 1 );
 					links.splice( index, 1 );
@@ -201,10 +201,10 @@
 				bannerLinks.on( 'click', function () {
 
 					var index   = $(this).closest( '.tm_banners_grid_widget_img_col' ).index(),
-						links   = linksInput.val()   ? linksInput.val().split( ',' )   : [],
-						targets = targetsInput.val() ? targetsInput.val().split( ',' ) : [],
-						titles  = titlesInput.val()  ? titlesInput.val().split( ',' )  : [],
-						texts   = textsInput.val()   ? textsInput.val().split( ',' )   : [];
+						links   = linksInput.val()   ? linksInput.val().split( /(?=\S),(?=\S)/ )   : [],
+						targets = targetsInput.val() ? targetsInput.val().split( /(?=\S),(?=\S)/ ) : [],
+						titles  = titlesInput.val()  ? titlesInput.val().split( /(?=\S),(?=\S)/ )  : [],
+						texts   = textsInput.val()   ? textsInput.val().split( /(?=\S),(?=\S)/ )   : [];
 
 					$( '.tm_banners_grid_widget_banner_id' ).val( index );
 					wrapper.dialog( 'open' );
@@ -233,11 +233,11 @@
 				},
 				update: function ( event, ui ) {
 
-					var banners = bannersInput.val().split( ',' ),
-						links   = linksInput.val()   ? linksInput.val().split( ',' )   : [],
-						targets = targetsInput.val() ? targetsInput.val().split( ',' ) : [],
-						titles  = titlesInput.val()  ? titlesInput.val().split( ',' )  : [],
-						texts   = textsInput.val()   ? textsInput.val().split( ',' )   : [];
+					var banners = bannersInput.val().split( /(?=\S),(?=\S)/ ),
+						links   = linksInput.val()   ? linksInput.val().split( /(?=\S),(?=\S)/ )   : [],
+						targets = targetsInput.val() ? targetsInput.val().split( /(?=\S),(?=\S)/ ) : [],
+						titles  = titlesInput.val()  ? titlesInput.val().split( /(?=\S),(?=\S)/ )  : [],
+						texts   = textsInput.val()   ? textsInput.val().split( /(?=\S),(?=\S)/ )   : [];
 
 					sortItemNewIndex = ui.item.index();
 
@@ -286,14 +286,14 @@
 	};
 	$( '#widgets-right' ).find( 'div.widget[id*=tm_banners_grid_widget]' ).each( function () {
 
-		tmBannerGridWidgetAdmin.init( 'init', $( this ) );
+		window.tmBannerGridWidgetAdmin.init( 'init', $( this ) );
 	} );
 
 	$( document ).on( 'widget-updated widget-added', function( event, widget ){
 
 		if ( widget.is( '[id*=tm_banners_grid_widget]' ) ) {
 
-			tmBannerGridWidgetAdmin.init( event, widget );
+			window.tmBannerGridWidgetAdmin.init( event, widget );
 		}
 	} );
 

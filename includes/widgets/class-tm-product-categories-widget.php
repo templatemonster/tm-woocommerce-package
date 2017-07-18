@@ -160,6 +160,7 @@ if ( class_exists( 'WC_Widget_Product_Categories' ) ) {
 
 				$list_args['parent'] = 0;
 			}
+
 			$cats = get_categories( $list_args );
 
 			if( ! empty( $cats ) ) {
@@ -197,13 +198,17 @@ if ( class_exists( 'WC_Widget_Product_Categories' ) ) {
 
 				foreach ( $cats as $category ) {
 
+					if ( ! $count && isset( $category->count ) ) {
+						$category->count = 0;
+					}
+
 					wc_get_template(
 						'content-product_cat.php',
 						array(
-							'category'  => $category,
-							'no_grid'   => true, //deprecated sinse 1.1.5
-							'swiper'    => true,
-							'is_widget' => true, // From 1.1.9
+							'category'   => $category,
+							'no_grid'    => true, //deprecated sinse 1.1.5
+							'swiper'     => true,
+							'is_widget'  => true, // From 1.1.9
 						)
 					);
 				}

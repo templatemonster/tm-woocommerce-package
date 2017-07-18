@@ -6,7 +6,7 @@ if ( ! function_exists( 'tm_products_carousel_widget_sale_end_date' ) ) {
 
 		global $post, $product;
 
-		$sale_end_date = get_post_meta( $product->id, '_sale_price_dates_to', true );
+		$sale_end_date = get_post_meta( get_the_id(), '_sale_price_dates_to', true );
 
 		$now = time();
 
@@ -172,4 +172,129 @@ if ( ! function_exists( 'tm_woo_render_macros' ) ) {
 		);
 	}
 
+}
+
+/**
+ * Get banner grids.
+ *
+ * @since  1.0.0
+ * @return array
+ */
+function tm_woo_available_banners_grids() {
+
+	$banners_grids = array(
+		array(
+			array(
+				array( 'w' => 12, 'h' => 1 )
+			)
+		),
+		array(
+			array(
+				array( 'w' => 6, 'h' => 1 ),
+				array( 'w' => 6, 'h' => 1 )
+			),
+			array(
+				array( 'w' => 4, 'h' => 1 ),
+				array( 'w' => 8, 'h' => 1 )
+			),
+			array(
+				array( 'w' => 8, 'h' => 1 ),
+				array( 'w' => 4, 'h' => 1 )
+			)
+		),
+		array(
+			array(
+				array( 'w' => 4, 'h' => 1 ),
+				array( 'w' => 4, 'h' => 1 ),
+				array( 'w' => 4, 'h' => 1 )
+			),
+			array(
+				array( 'w' => 6, 'h' => 1 ),
+				array( 'w' => 3, 'h' => 1 ),
+				array( 'w' => 3, 'h' => 1 )
+			),
+			array(
+				array( 'w' => 8, 'h' => 2 ),
+				array(
+					'w' => 4,
+					'h' => array( 1, 1 )
+				)
+			)
+		),
+		array(
+			array(
+				array( 'w' => 5, 'h' => 2 ),
+				array(
+					'w' => 7,
+					'h' => array(
+						1,
+						array(
+							array( 'w' => 6, 'h' => 1 ),
+							array( 'w' => 6, 'h' => 1 )
+						)
+					)
+				)
+			),
+			array(
+				array( 'w' => 4, 'h' => 2 ),
+				array(
+					'w' => 4,
+					'h' => array( 1, 1 )
+				),
+				array( 'w' => 4, 'h' => 2 )
+			)
+		),
+		array(
+			array(
+				array(
+					'w' => 4,
+					'h' => array( 1, 1 )
+				),
+				array( 'w' => 4, 'h' => 2 ),
+				array(
+					'w' => 4,
+					'h' => array( 1, 1 )
+				)
+			)
+		),
+		array(
+			array(
+				array(
+					'w' => 4,
+					'h' => array( 1, 1 )
+				),
+				array(
+					'w' => 4,
+					'h' => array( 1, 1 )
+				),
+				array(
+					'w' => 4,
+					'h' => array( 1, 1 )
+				)
+			)
+		)
+	);
+	return apply_filters ( 'tm_banners_grid_widget_grids', $banners_grids );
+}
+
+/**
+ * Get banner columns html.
+ *
+ * @since  1.0.0
+ * @return string
+ */
+function tm_woo_banners_grid_col() {
+
+	$col = '<div class="tm_banners_grid_widget_img_col">'
+		 . '<div style="background-image: url(%s);">'
+		 . '<span class="banner_remove">'
+		 . '<span class="dashicons dashicons-dismiss"></span>'
+		 . '</span>'
+		 . '<span class="banner_link" title="' . __( 'Set text and link', 'tm-woocommerce-package' ) . '">'
+		 . '<span class="dashicons dashicons-admin-generic"></span>'
+		 . '</span>'
+		 . '</div>'
+		 . '</div>';
+
+	return apply_filters ( 'tm_banners_grid_widget_col', $col );
 }

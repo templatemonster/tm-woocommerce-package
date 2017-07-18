@@ -3,7 +3,7 @@
 ( function( $ ) {
 	'use strict';
 
-	var tmCustomMenuWidgetAdmin = {
+	window.tmCustomMenuWidgetAdmin = {
 
 		init: function ( event, widget ) {
 
@@ -50,14 +50,14 @@
 
 	$( '#widgets-right' ).find( 'div.widget[id*=tm_custom_menu_widget]' ).each( function () {
 
-		tmCustomMenuWidgetAdmin.init( 'init', $( this ) );
+		window.tmCustomMenuWidgetAdmin.init( 'init', $( this ) );
 	} );
 
 	$( document ).on( 'widget-updated widget-added', function( event, widget ) {
 
 		if ( widget.is( '[id*=tm_custom_menu_widget]' ) ) {
 
-			tmCustomMenuWidgetAdmin.init( event, widget );
+			window.tmCustomMenuWidgetAdmin.init( event, widget );
 		}
 	} );
 

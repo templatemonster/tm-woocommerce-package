@@ -39,6 +39,16 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 				'label'      => __( 'Filter by category', 'tm-woocommerce-package' )
 			);
 
+			$this->settings['tm_only_featured'] = array(
+				'type'       => 'select',
+				'std'        => 'yes',
+				'options'    => array(
+					'yes' => esc_html__( 'Yes', 'tm-woocommerce-package' ),
+					'no'  => esc_html__( 'No', 'tm-woocommerce-package' ),
+				),
+				'label'      => __( 'Show only featured products?', 'tm-woocommerce-package' )
+			);
+
 			add_action( 'wp_enqueue_scripts', array( $this, '__tm_products_smart_box_widget_enqueue_files' ), 9 );
 
 			WC_Widget::__construct();
@@ -118,6 +128,7 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 			ob_start();
 
 			$tm_filter_by_cat = ! empty( $instance['tm_filter_by_cat'] ) ? $instance['tm_filter_by_cat'] : false;
+			$only_featured    = ! empty( $instance['tm_only_featured'] ) ? esc_attr( $instance['tm_only_featured'] ) : 'yes';
 			$terms_args       = array();
 
 			if ( is_array( $tm_filter_by_cat ) && ! in_array( 'all', $tm_filter_by_cat ) ) {
@@ -151,7 +162,7 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 
 				$categories[$key]->thumb = $image;
 				$args['category']        = $category->term_taxonomy_id;
-				$products[$key]          = $this->get_products_category( $args, $instance );
+				$products[$key]          = $this->get_products_category( $args, $instance, $only_featured );
 
 				if ( ( $products[$key] ) && $products[$key]->have_posts() ) {
 
@@ -235,11 +246,12 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 		 * Get products category
 		 *
 		 * @since 1.1.1
-		 * @param array $args
-		 * @param array $instance
+		 * @param array  $args
+		 * @param array  $instance
+		 * @param string $only_featured
 		 * @return object
 		 */
-		public function get_products_category( $args, $instance ) {
+		public function get_products_category( $args, $instance, $only_featured ) {
 
 			$number  = ! empty( $instance['number'] )  ? absint( $instance['number'] )          : $this->settings['number']['std'];
 			$orderby = ! empty( $instance['orderby'] ) ? sanitize_title( $instance['orderby'] ) : $this->settings['orderby']['std'];
@@ -275,10 +287,14 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 				'terms'    => $args['category']
 			);
 			$query_args['tax_query']    = $tax_query;
-			$query_args['meta_query'][] = array(
-				'key'   => '_featured',
-				'value' => 'yes'
-			);
+
+			if ( 'no' !== $only_featured ) {
+				$query_args['meta_query'][] = array(
+					'key'   => '_featured',
+					'value' => 'yes'
+				);
+			}
+
 			switch ( $orderby ) {
 				case 'price' :
 					$query_args['meta_key'] = '_price';

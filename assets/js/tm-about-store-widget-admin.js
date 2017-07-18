@@ -3,7 +3,7 @@
 ( function( $ ) {
 	'use strict';
 
-	var tmAboutStoreWidgetAdmin = {
+	window.tmAboutStoreWidgetAdmin = {
 
 		init: function ( event, widget ) {
 
@@ -50,14 +50,14 @@
 
 	$( '#widgets-right' ).find( 'div.widget[id*=tm_about_store_widget]' ).each( function () {
 
-		tmAboutStoreWidgetAdmin.init( 'init', $( this ) );
+		window.tmAboutStoreWidgetAdmin.init( 'init', $( this ) );
 	} );
 
 	$( document ).on( 'widget-updated widget-added', function( event, widget ) {
 
 		if ( widget.is( '[id*=tm_about_store_widget]' ) ) {
 
-			tmAboutStoreWidgetAdmin.init( event, widget );
+			window.tmAboutStoreWidgetAdmin.init( event, widget );
 		}
 	} );
 

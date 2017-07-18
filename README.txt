@@ -3,8 +3,8 @@
 Contributors: TemplateMonster 2002
 Tags: woocommerce, widgets, e-commerce
 Requires at least: 4.4
-Tested up to: 4.7.3
-Stable tag: 1.2.5
+Tested up to: 4.8
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,103 +93,3 @@ The TM Products Smart Box widget works as follows, when you select a specific nu
 1. Upload "TM WooCommerce Package" folder to the "/wp-content/plugins/" directory
 2. Activate the plugin through the "Plugins" menu in WordPress
 3. Navigate to the "Widgets" section to start customizing
-
-== Changelog ==
-
-= 1.2.3 =
-
-* FIX: WooCommerce 3.0 compatibility.
-
-= 1.2.2 =
-
-* FIX: Minor fixes.
-
-= 1.2.1 =
-
-* FIX: Minor fixes.
-
-= 1.2.0 =
-
-* ADD: Advanced thumbnails management.
-
-= 1.1.7 =
-
-* ADD: Allow to pass URLs with macros in About Store widget.
-
-= 1.1.6 =
-
-* Hotfix! Add backward compatibility for TM Products Carousel widget
-
-= 1.1.5 =
-
-* Add new hooks in TM Products Carousel Widget
-
-= 1.1.4 =
-
-* Fix TM Products Carousel widget
-* Fix TM Product Categories with thumbnail widget
-* Added hooks in TM About Store widget
-
-= 1.1.3 =
-
-* Fix TM Products Carousel Widget hooks
-* Remove unused hooks
-
-= 1.1.2 =
-
-* Hotfix issue with plugin files including priority
-
-= 1.1.1 =
-
-* Fix issue with indefined index in TM Products Smart Box Widget
-
-= 1.1.0 =
-
-* Add WPML Compatibility
-* Update hooks priority
-
-= 1.0.10 =
-
-* Add Custom class option to TM Custom Menu with Background widget
-* Fix R&D Material Tabs sript
-
-= 1.0.9 =
-
-* Update hooks in TM Products Carousel Widget
-
-= 1.0.8 =
-
-* Add hook in Smart Box widget for change size of images category
-
-= 1.0.7 =
-
-* Change TM About Author widget html structure
-
-= 1.0.6 =
-
-* Add option to TM Product Categories widget
-
-= 1.0.5 =
-
-* Updated widgets
-
-= 1.0.4 =
-
-* Fixed widgets core functions
-
-= 1.0.3 =
-
-* Added the ability to insert a relative link in the TM About Store widget button
-
-= 1.0.2 =
-
-* Update options
-* Minify scripts
-
-= 1.0.1 =
-
-* Update options
-
-= 1.0.0 =
-
-* Initial release

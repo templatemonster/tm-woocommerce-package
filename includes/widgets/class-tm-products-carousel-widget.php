@@ -437,10 +437,11 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 		 */
 		public function get_data_atts( $atts, $args, $instance ) {
 
-			$atts = apply_filters( 'tm_woocommerce_carousel_data_atts', $atts, $args, $instance );
+			$default = $atts;
+			$atts    = apply_filters( 'tm_woocommerce_carousel_data_atts', $atts, $args, $instance );
 
 			if ( empty( $atts ) ) {
-				return '';
+				$atts = $default;
 			}
 
 			$result    = '';

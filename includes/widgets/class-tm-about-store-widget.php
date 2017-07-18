@@ -128,7 +128,28 @@ if ( class_exists( 'WP_Widget_Text' ) ) {
 		 */
 		public function form( $instance ) {
 
-			parent::form( $instance );
+			$instance = wp_parse_args(
+				(array) $instance,
+				array(
+					'title' => '',
+					'text'  => '',
+				)
+			);
+
+			?>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php
+					esc_html_e( 'Title', 'tm-woocommerce-package' );
+				?></label>
+				<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" class="widefat" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>">
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php
+					esc_html_e( 'Text', 'tm-woocommerce-package' );
+				?></label>
+				<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>" class="widefat"><?php echo wp_kses_post( $instance['text'] ); ?></textarea>
+			</p>
+			<?php
 
 			$id  = !empty( $instance['id'] ) ? $instance['id'] : '';
 			$img = '';

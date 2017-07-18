@@ -1,12 +1,22 @@
 <?php
-/*
-	Plugin Name: TM WooCommerce Package
-	Description: The plugin based on WooCommerce is packed with multiple functional widgets that give you an opportunity to build various layouts for your store.
-	Version: 1.2.5
-	Author: TemplateMonster
-	Author URI: http://www.templatemonster.com/
-	Text Domain: tm-woocommerce-package
-*/
+/**
+ * Plugin Name: TM WooCommerce Package
+ * Plugin URI:  https://jetimpex.com/wordpress/
+ * Description: The plugin based on WooCommerce is packed with multiple functional widgets that give you an opportunity to build various layouts for your store.
+ * Version:     1.3.0
+ * Author:      JetImpex
+ * Author URI:  https://jetimpex.com/wordpress/
+ * Text Domain: tm-woocommerce-package
+ * License:     GPL-3.0+
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
+ * Domain Path: /languages
+ *
+ * @package tm-woocommerce-package
+ * @author  JetImpex
+ * @version 1.0.0
+ * @license GPL-3.0+
+ * @copyright  2017, JetImpex
+ */
 
 /*  This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -97,7 +107,7 @@ class TM_WooCommerce {
 			return false;
 		}
 
-		define( 'TM_WOOCOMMERCE_VERISON', '1.2.5' );
+		define( 'TM_WOOCOMMERCE_VERISON', '1.3.0' );
 
 		// Load admin assets.
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 9 );
@@ -166,6 +176,12 @@ class TM_WooCommerce {
 	public function init() {
 		include_once 'includes/tm-woocommerce-hooks.php';
 		include_once 'includes/tm-woocommerce-product-thumbs.php';
+
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+			require plugin_dir_path( __FILE__ ) . '/includes/tm-woocommerce-elementor-compat.php';
+			tm_woocommerce_elemntor_compat();
+		}
+
 	}
 
 	/**
@@ -268,8 +284,8 @@ class TM_WooCommerce {
 	public function register_assets() {
 
 		// Swiper assets register
-		wp_register_style( 'jquery-swiper', '//cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css', array(), '3.3.1', 'all' );
-		wp_register_script( 'jquery-swiper', '//cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js', array( 'jquery' ), '3.3.1', true );
+		wp_register_style( 'jquery-swiper', '//cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css', array(), '3.4.2', 'all' );
+		wp_register_script( 'jquery-swiper', '//cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.min.js', array( 'jquery' ), '3.4.2', true );
 
 		// Material Tabs assets register
 		wp_register_style( 'jquery-rd-material-tabs', tm_wc()->plugin_url() . '/assets/css/rd-material-tabs.css', array(), '1.0.0', 'all' );
