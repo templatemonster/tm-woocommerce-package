@@ -58,12 +58,6 @@ if ( class_exists( 'WC_Widget_Product_Categories' ) ) {
 				'label' => __( 'Number of visible categories', 'tm-woocommerce-package' )
 			);
 
-			$this->settings['tm_categories_carousel_widget_navigation'] = array(
-				'type'  => 'label',
-				'std'   => '',
-				'label' => __( 'Navigation', 'tm-woocommerce-package' )
-			);
-
 			$this->settings['tm_categories_carousel_widget_arrows'] = array(
 				'type'  => 'checkbox',
 				'std'   => 1,

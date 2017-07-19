@@ -52,11 +52,6 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 				'std'   => 4,
 				'label' => __( 'Number of visible products', 'tm-woocommerce-package' )
 			);
-			$this->settings['tm_products_carousel_widget_meta'] = array(
-				'type'  => 'label',
-				'std'   => '',
-				'label' => __( 'Product Meta', 'tm-woocommerce-package' )
-			);
 			$this->settings['tm_products_carousel_widget_title'] = array(
 				'type'  => 'checkbox',
 				'std'   => 1,
@@ -89,11 +84,6 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 				'type'  => 'checkbox',
 				'std'   => 1,
 				'label' => __( 'Category', 'tm-woocommerce-package' )
-			);
-			$this->settings['tm_products_carousel_widget_navigation'] = array(
-				'type'  => 'label',
-				'std'   => '',
-				'label' => __( 'Navigation', 'tm-woocommerce-package' )
 			);
 			$this->settings['tm_products_carousel_widget_arrows'] = array(
 				'type'  => 'checkbox',
