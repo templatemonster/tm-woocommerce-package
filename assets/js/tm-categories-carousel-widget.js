@@ -1,4 +1,5 @@
 ( function ( $ ) {
+	console.log(123);
 	$( '.tm-categories-carousel-widget-container' ).each( function() {
 		var swiper             = null,
 			uniqId             = $( this ).data( 'uniq-id' ),

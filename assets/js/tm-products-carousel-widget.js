@@ -57,7 +57,10 @@
 				breakpoints: breakpointsList
 			}
 		);
+
+		console.log(swiper);
 	} );
+
 	$( '.tm-products-carousel-widget-sale-end-date[data-countdown]' ).each( function() {
 		var $this = $( this ),
 		finalDate = $( this ).data( 'countdown' ),

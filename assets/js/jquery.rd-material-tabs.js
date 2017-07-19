@@ -860,7 +860,7 @@
 }).call(this);
 
 
-jQuery(document).ready(function () {
+jQuery(window).load(function () {
 	var o = jQuery('.rd-material-tabs');
 	o.RDMaterialTabs({
 		marginContent: o.data('margin'),

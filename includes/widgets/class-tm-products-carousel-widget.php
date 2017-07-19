@@ -15,6 +15,8 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 
 		public $instance = null;
 
+		private $_has_elementor_in_page = false;
+
 		/**
 		 * Constructor.
 		 *
@@ -107,6 +109,7 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 			WC_Widget::__construct();
 
 			add_action( 'wp_enqueue_scripts', array( $this, '__tm_products_carousel_widget_enqueue_files' ), 9 );
+			add_action( 'elementor/frontend/after_enqueue_styles', array( $this, '__tm_products_carousel_widget_enqueue_files_elementor' ) );
 
 			$this->hooks = apply_filters( 'tm_products_carousel_widget_hooks', array(
 				'title' => array(
@@ -140,6 +143,17 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 					1
 				)
 			), $this );
+		}
+
+		/**
+		 * Enqueue widget assets.
+		 *
+		 * @since  1.0.0
+		 * @return void
+		 */
+		public function __tm_products_carousel_widget_enqueue_files_elementor( $val ) {
+			wp_enqueue_style( 'tm-products-carousel-widget-styles' );
+			wp_enqueue_script( 'tm-products-carousel-widget-init' );
 		}
 
 		/**
@@ -309,6 +323,7 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 						}
 					}
 				}
+
 				$between    = apply_filters( 'tm_products_carousel_widget_space_between_slides', 30, $this );
 				$arrows_pos = apply_filters( 'tm_products_carousel_widget_arrows_pos', 'inside', $this );
 				$arrows     = ! empty( $instance['tm_products_carousel_widget_arrows'] )     ? $instance['tm_products_carousel_widget_arrows']     : 0;
@@ -401,23 +416,27 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 
 				$end_html[] = apply_filters( 'tm_products_carousel_widget_wrapper_close', '</ul>' );
 
-				if( 'outside' === $arrows_pos ){
+				if ( 'outside' === $arrows_pos ) {
 
 					$end_html[] = '</div>';
 				}
-				if( $pagination ) {
+
+				if ( $pagination ) {
 
 					$end_html[] = '<div id="swiper-carousel-'. $uniqid . '-pagination" class="swiper-pagination tm-products-carousel-widget-pagination"></div>';
 				}
-				if( $arrows ) {
+
+				if ( $arrows ) {
 
 					$end_html[] = '<div id="swiper-carousel-'. $uniqid . '-next" class="swiper-button-next tm-products-carousel-widget-button-next">' . do_action( 'tm_products_carousel_widget_next_arrow_icon' ) . '</div>';
 					$end_html[] = '<div id="swiper-carousel-'. $uniqid . '-prev" class="swiper-button-prev tm-products-carousel-widget-button-prev">' . do_action( 'tm_products_carousel_widget_prev_arrow_icon' ) . '</div>';
 				}
-				if( 'inside' === $arrows_pos ){
+
+				if ( 'inside' === $arrows_pos ) {
 
 					$end_html[] = '</div>';
 				}
+
 				echo implode ( "\n", $end_html );
 
 				$this->widget_end( $args );

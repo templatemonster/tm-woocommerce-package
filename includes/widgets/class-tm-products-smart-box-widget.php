@@ -22,6 +22,7 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 
 			parent::__construct();
 
+
 			$tm_wc = tm_wc();
 
 			$this->widget_cssclass    = '__tm_products_smart_box_widget';
@@ -51,6 +52,8 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 
 			add_action( 'wp_enqueue_scripts', array( $this, '__tm_products_smart_box_widget_enqueue_files' ), 9 );
 
+			add_action( 'elementor/frontend/after_enqueue_styles', array( $this, '__tm_products_smart_box_widget_enqueue_files_elementor' ) );
+
 			WC_Widget::__construct();
 		}
 
@@ -67,6 +70,11 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 				wp_enqueue_style( 'jquery-rd-material-tabs' );
 				wp_enqueue_script( 'jquery-rd-material-tabs' );
 			}
+		}
+
+		public function __tm_products_smart_box_widget_enqueue_files_elementor() {
+			wp_enqueue_style( 'jquery-rd-material-tabs' );
+			wp_enqueue_script( 'jquery-rd-material-tabs' );
 		}
 
 		/**

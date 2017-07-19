@@ -83,6 +83,7 @@ if ( class_exists( 'WC_Widget_Product_Categories' ) ) {
 			WC_Widget::__construct();
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), 9 );
+			add_action( 'elementor/frontend/after_enqueue_styles', array( $this, 'enqueue_assets_elementor' ) );
 			add_filter( 'wc_get_template', array( $this, 'rewrite_widget_template_fallback' ), 10, 3 );
 		}
 
@@ -122,6 +123,11 @@ if ( class_exists( 'WC_Widget_Product_Categories' ) ) {
 				wp_enqueue_style( 'jquery-swiper' );
 				wp_enqueue_script( 'tm-categories-carousel-widget-init' );
 			}
+		}
+
+		public function enqueue_assets_elementor() {
+			wp_enqueue_style( 'jquery-swiper' );
+			wp_enqueue_script( 'tm-categories-carousel-widget-init' );
 		}
 
 		/**
