@@ -3,7 +3,7 @@
  * Plugin Name: TM WooCommerce Package
  * Plugin URI:  https://jetimpex.com/wordpress/
  * Description: The plugin based on WooCommerce is packed with multiple functional widgets that give you an opportunity to build various layouts for your store.
- * Version:     1.3.0
+ * Version:     1.3.1
  * Author:      JetImpex
  * Author URI:  https://jetimpex.com/wordpress/
  * Text Domain: tm-woocommerce-package
@@ -107,7 +107,7 @@ class TM_WooCommerce {
 			return false;
 		}
 
-		define( 'TM_WOOCOMMERCE_VERISON', '1.3.0' );
+		define( 'TM_WOOCOMMERCE_VERISON', '1.3.1' );
 
 		// Load admin assets.
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 9 );
