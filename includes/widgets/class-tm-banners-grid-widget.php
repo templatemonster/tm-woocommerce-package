@@ -384,10 +384,10 @@ if ( class_exists( 'WC_Widget' ) ) {
 			$titles  = ! empty( $instance['titles'] )        ? preg_split( $regex, $instance['titles'] )        : false;
 			$texts   = ! empty( $instance['texts'] )         ? preg_split( $regex, $instance['texts'] )         : false;
 
-			$links   = array_map( array( $this, 'prepare_instance' ), $links );
-			$targets = array_map( array( $this, 'prepare_instance' ), $targets );
-			$titles  = array_map( array( $this, 'prepare_instance' ), $titles );
-			$texts   = array_map( array( $this, 'prepare_instance' ), $texts );
+			$links   = ( is_array( $links ) ) ? array_map( array( $this, 'prepare_instance' ), $links ) : $links;
+			$targets = ( is_array( $targets ) ) ? array_map( array( $this, 'prepare_instance' ), $targets ) : $links;
+			$titles  = ( is_array( $titles ) ) ? array_map( array( $this, 'prepare_instance' ), $titles ) : $links;
+			$texts   = ( is_array( $texts ) ) ? array_map( array( $this, 'prepare_instance' ), $texts ) : $links;
 
 			if ( is_array( $banners ) ) {
 
