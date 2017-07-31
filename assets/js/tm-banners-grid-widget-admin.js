@@ -131,10 +131,10 @@
 						titles  = titlesInput.val()  ? titlesInput.val().split( /(?=\S),(?=\S)/ )  : [],
 						texts   = textsInput.val()   ? textsInput.val().split( /(?=\S),(?=\S)/ )   : [];
 
-					links[index]   = linkInput.val();
-					targets[index] = targetInput.val();
-					titles[index]  = titleInput.val();
-					texts[index]   = textInput.val();
+					links[index]   = linkInput.val()   ? linkInput.val() :   'null';
+					targets[index] = targetInput.val() ? targetInput.val() : 'null';
+					titles[index]  = titleInput.val()  ? titleInput.val() :  'null';
+					texts[index]   = textInput.val()  ? textInput.val() :    'null';
 
 					linksInput.val( links.join() );
 					targetsInput.val( targets.join() );
@@ -208,15 +208,15 @@
 
 					$( '.tm_banners_grid_widget_banner_id' ).val( index );
 					wrapper.dialog( 'open' );
-					linkInput.val( links[index] ? links[index] : '' );
+					linkInput.val( ( links[index] && 'null' !== links[index] ) ? links[index] : '' );
 					targetInput
 						.find( 'option' )
 						.filter( function() {
 							return undefined !== targets[index] && $(this).val() == targets[index];
 						} )
 						.prop( 'selected', true );
-					titleInput.val( titles[index] ?  titles[index] : '' );
-					textInput.val( texts[index] ? texts[index] : '' );
+					titleInput.val( ( titles[index] && 'null' !== titles[index] ) ? titles[index] : '' );
+					textInput.val( ( texts[index] && 'null' !== texts[index] ) ? texts[index] : '' );
 				});
 			}
 

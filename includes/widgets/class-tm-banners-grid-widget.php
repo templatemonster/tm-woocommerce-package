@@ -346,6 +346,15 @@ if ( class_exists( 'WC_Widget' ) ) {
 		}
 
 		/**
+		 * Filter instance items.
+		 *
+		 * @return string
+		 */
+		public function prepare_instance( $item ) {
+			return ( 'null' !== $item ? $item : '' );
+		}
+
+		/**
 		 * Output widget.
 		 *
 		 * @since 1.0.0
@@ -375,6 +384,11 @@ if ( class_exists( 'WC_Widget' ) ) {
 			$titles  = ! empty( $instance['titles'] )        ? preg_split( $regex, $instance['titles'] )        : false;
 			$texts   = ! empty( $instance['texts'] )         ? preg_split( $regex, $instance['texts'] )         : false;
 
+			$links   = array_map( array( $this, 'prepare_instance' ), $links );
+			$targets = array_map( array( $this, 'prepare_instance' ), $targets );
+			$titles  = array_map( array( $this, 'prepare_instance' ), $titles );
+			$texts   = array_map( array( $this, 'prepare_instance' ), $texts );
+
 			if ( is_array( $banners ) ) {
 
 				ob_start();
@@ -383,10 +397,11 @@ if ( class_exists( 'WC_Widget' ) ) {
 
 				echo $this->build_row( $banners_grid, $banners, $links, $targets, $titles, $texts );
 
+
 				$this->widget_end( $args );
 
 				echo $this->cache_widget( $args, ob_get_clean() );
 			}
 		}
 	}
-} ?>
+}
