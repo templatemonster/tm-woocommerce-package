@@ -52,7 +52,7 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 
 			add_action( 'wp_enqueue_scripts', array( $this, '__tm_products_smart_box_widget_enqueue_files' ), 9 );
 
-			add_action( 'elementor/frontend/after_enqueue_styles', array( $this, '__tm_products_smart_box_widget_enqueue_files_elementor' ) );
+			add_action( 'elementor/frontend/before_enqueue_scripts', array( $this, '__tm_products_smart_box_widget_enqueue_files_elementor' ) );
 
 			WC_Widget::__construct();
 		}
@@ -64,17 +64,11 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 		 * @return void
 		 */
 		public function __tm_products_smart_box_widget_enqueue_files() {
-
-			if ( is_active_widget( false, false, $this->id_base, true ) ) {
-
-				wp_enqueue_style( 'jquery-rd-material-tabs' );
-				wp_enqueue_script( 'jquery-rd-material-tabs' );
-			}
+			wp_enqueue_style( 'jquery-rd-material-tabs', tm_wc()->plugin_url() . '/assets/css/rd-material-tabs.css', array(), '1.0.0', 'all' );
 		}
 
 		public function __tm_products_smart_box_widget_enqueue_files_elementor() {
-			wp_enqueue_style( 'jquery-rd-material-tabs' );
-			wp_enqueue_script( 'jquery-rd-material-tabs' );
+			wp_enqueue_script( 'jquery-rd-material-tabs', tm_wc()->plugin_url() . '/assets/js/jquery.rd-material-tabs' . tm_wc()->suffix . '.js', array( 'jquery' ), '1.0.2', true );
 		}
 
 		/**
@@ -106,9 +100,58 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 		 */
 		public function update( $new_instance, $old_instance ) {
 
-			add_action( 'woocommerce_widget_settings_sanitize_option', 'tm_products_smart_box_widget_settings_sanitize_option', 10, 4 );
+			$instance = $old_instance;
 
-			return parent::update( $new_instance, $old_instance );
+			if ( empty( $this->settings ) ) {
+				return $instance;
+			}
+
+			// Loop settings and get values to save.
+			foreach ( $this->settings as $key => $setting ) {
+				if ( ! isset( $setting['type'] ) ) {
+					continue;
+				}
+
+				// Format the value based on settings type.
+				switch ( $setting['type'] ) {
+					case 'number' :
+						$instance[ $key ] = absint( $new_instance[ $key ] );
+
+						if ( isset( $setting['min'] ) && '' !== $setting['min'] ) {
+							$instance[ $key ] = max( $instance[ $key ], $setting['min'] );
+						}
+
+						if ( isset( $setting['max'] ) && '' !== $setting['max'] ) {
+							$instance[ $key ] = min( $instance[ $key ], $setting['max'] );
+						}
+					break;
+					case 'textarea' :
+						$instance[ $key ] = wp_kses( trim( wp_unslash( $new_instance[ $key ] ) ), wp_kses_allowed_html( 'post' ) );
+					break;
+					case 'checkbox' :
+						$instance[ $key ] = empty( $new_instance[ $key ] ) ? 0 : 1;
+					break;
+					case 'multiselect':
+						if ( is_array( $new_instance[ $key ] ) ) {
+							$instance[ $key ] = array_map( 'sanitize_text_field', $new_instance[ $key ] );
+						} else {
+							$instance[ $key ] = sanitize_text_field( $new_instance[ $key ] );
+						}
+					break;
+					default:
+						$instance[ $key ] = sanitize_text_field( $new_instance[ $key ] );
+					break;
+				}
+
+				/**
+				 * Sanitize the value of a setting.
+				 */
+				$instance[ $key ] = apply_filters( 'woocommerce_widget_settings_sanitize_option', $instance[ $key ], $new_instance, $key, $setting );
+			}
+
+			$this->flush_widget_cache();
+
+			return $instance;
 		}
 
 		/**
@@ -124,6 +167,10 @@ if ( class_exists( 'WC_Widget_Products' ) ) {
 
 				return;
 			}
+
+			// Material Tabs assets register
+			wp_enqueue_script( 'jquery-rd-material-tabs', tm_wc()->plugin_url() . '/assets/js/jquery.rd-material-tabs' . tm_wc()->suffix . '.js', array( 'jquery' ), '1.0.2', true );
+
 			$include_bootstrap_grid = apply_filters( 'tm_woocommerce_include_bootstrap_grid', true );
 
 			if ( $include_bootstrap_grid ) {

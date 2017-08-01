@@ -126,7 +126,24 @@ class TM_WooCommerce {
 
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
+		add_action( 'elementor/frontend/before_enqueue_scripts', array( $this, 'elementor_compat_script' ) );
+
 		$this->set_suffix();
+	}
+
+	/**
+	 * Elementor compatibility script.
+	 */
+	public function elementor_compat_script() {
+
+		wp_enqueue_script(
+			'tm-elementor-compat-front',
+			tm_wc()->plugin_url() . '/assets/js/elementor-compat-front.js',
+			array( 'jquery', 'elementor-frontend' ),
+			TM_WOOCOMMERCE_VERISON,
+			true
+		);
+
 	}
 
 	/**
