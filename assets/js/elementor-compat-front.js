@@ -23,8 +23,6 @@
 				return;
 			}
 
-			console.log( $tabs.data( 'margin' ) );
-
 			$tabs.RDMaterialTabs({
 				marginContent: $tabs.data( 'margin' ),
 				margin: $tabs.data( 'margin' )
