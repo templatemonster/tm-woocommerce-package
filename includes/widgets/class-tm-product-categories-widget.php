@@ -228,6 +228,7 @@ if ( class_exists( 'WC_Widget_Product_Categories' ) ) {
 				if( $arrows ) {
 
 					$end_html[] = '<div id="swiper-carousel-'. $uniqid . '-next" class="swiper-button-next tm-categories-carousel-widget-button-next">' . do_action( 'tm_categories_carousel_widget_next_arrow_icon' ) . '</div>';
+					$end_html[] = apply_filters( 'tm_products_categories_widget_arrows_separator', '' );
 					$end_html[] = '<div id="swiper-carousel-'. $uniqid . '-prev" class="swiper-button-prev tm-categories-carousel-widget-button-prev">' . do_action( 'tm_categories_carousel_widget_prev_arrow_icon' ) . '</div>';
 				}
 				if( 'inside' === $arrows_pos ) {
